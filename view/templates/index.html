@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="page-grid">
+
+  <!-- ── FORMULÁRIO INSERIR ─────────────────────────── -->
+  <section class="card card-form">
+    <div class="card-header">
+      <span class="layer-badge model">Model</span>
+      <h2>Cadastrar Aluno</h2>
+    </div>
+    <form action="/inserir" method="post">
+      <div class="form-group">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" placeholder="Ex: João Silva" required/>
+      </div>
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" placeholder="Ex: joao@email.com" required/>
+      </div>
+      <div class="form-group">
+        <label for="curso">Curso</label>
+        <input type="text" id="curso" name="curso" placeholder="Ex: Desenvolvimento de Sistemas" required/>
+      </div>
+      <button type="submit" class="btn btn-primary">+ Cadastrar</button>
+    </form>
+  </section>
+
+  <!-- ── TABELA DE ALUNOS ───────────────────────────── -->
+  <section class="card card-table">
+    <div class="card-header">
+      <span class="layer-badge controller">Controller</span>
+      <h2>Lista de Alunos <span class="count">{{ alunos|length }}</span></h2>
+    </div>
+
+    {% if alunos %}
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Curso</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in alunos %}
+          <tr>
+            <td><span class="id-badge">{{ a.id }}</span></td>
+            <td>{{ a.nome }}</td>
+            <td>{{ a.email }}</td>
+            <td>{{ a.curso }}</td>
+            <td class="actions">
+              <a href="/editar/{{ a.id }}" class="btn btn-edit">✎ Editar</a>
+              <form action="/excluir/{{ a.id }}" method="post"
+                    onsubmit="return confirm('Excluir {{ a.nome }}?')">
+                <button type="submit" class="btn btn-delete">✕ Excluir</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <p>📋 Nenhum aluno cadastrado ainda.<br/>Use o formulário ao lado para começar!</p>
+    </div>
+    {% endif %}
+  </section>
+
+</div>
+
+<!-- ── DIAGRAMA MVC ────────────────────────────────── -->
+<section class="card card-diagram">
+  <div class="card-header">
+    <span class="layer-badge view">View</span>
+    <h2>Fluxo MVC — Como funciona</h2>
+  </div>
+  <div class="diagram">
+    <div class="layer model">
+      <strong>Model</strong>
+      <code>conexao.py</code>
+      <small>Conecta ao SQLite<br/>e gerencia dados</small>
+    </div>
+    <div class="arrow">⟷</div>
+    <div class="layer controller">
+      <strong>Controller</strong>
+      <code>crud.py</code>
+      <small>Inserir · Consultar<br/>Alterar · Excluir</small>
+    </div>
+    <div class="arrow">⟷</div>
+    <div class="layer view">
+      <strong>View</strong>
+      <code>app.py + HTML</code>
+      <small>Interface Flask<br/>no navegador</small>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    container_name: mvc_senai
+    ports:
+      - "5000:5000"          # acesse em http://localhost:5000
+    volumes:
+      - .:/app               # hot-reload do código durante o desenvolvimento
+      - db_data:/app/data    # banco SQLite persistente
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+    restart: unless-stopped
+
+volumes:
+  db_data:

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Sistema MVC — SENAI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-mvc">MVC</span>
+        <span class="logo-text">Sistema de Alunos</span>
+      </div>
+      <nav>
+        <span class="badge badge-model">Model</span>
+        <span class="badge badge-view">View</span>
+        <span class="badge badge-controller">Controller</span>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <p>SENAI · Aula Teste — Instrutor 3 · Arquitetura MVC com Python + SQLite</p>
+  </footer>
+</body>
+</html>
